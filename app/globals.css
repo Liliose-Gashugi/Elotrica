@@ -12,7 +12,11 @@
   --font-body: var(--font-dm-sans);
 }
 
-* {
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
   scroll-behavior: smooth;
 }
 
@@ -20,8 +24,90 @@ body {
   background-color: #f7f4ef;
   color: #122820;
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-playfair), 'Playfair Display', serif;
 }
+
+/* ── Marquee ───────────────────────────────────────────── */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.marquee-track-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 38s linear infinite;
+}
+
+.marquee-track-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 42s linear infinite;
+}
+
+.marquee-wrap:hover .marquee-track-left,
+.marquee-wrap:hover .marquee-track-right {
+  animation-play-state: paused;
+}
+
+/* ── Gradient border card ─────────────────────────────── */
+.gradient-border {
+  position: relative;
+  background: white;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #A88549, #2d7a60);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* ── Shimmer glow on hover ────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ── Float animation ──────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+.float-slow { animation: float 6s ease-in-out infinite; }
+.float-mid  { animation: float 4.5s ease-in-out infinite 1s; }
+.float-fast { animation: float 3.5s ease-in-out infinite 0.5s; }
+
+/* ── Pulse ring ───────────────────────────────────────── */
+@keyframes ping-slow {
+  75%, 100% { transform: scale(1.6); opacity: 0; }
+}
+.ping-slow { animation: ping-slow 2.5s cubic-bezier(0,0,0.2,1) infinite; }
+
+/* ── Number counter spin ──────────────────────────────── */
+@keyframes counter-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.counter-in { animation: counter-in 0.6s cubic-bezier(.22,1,.36,1) forwards; }
