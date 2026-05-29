@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-const WA_LINK = `https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20`;
+const WA_LINK = `https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20`;
 
 function WheelSpokes({ cx, cy, r1, r2 }: { cx: number; cy: number; r1: number; r2: number }) {
   return (
@@ -42,7 +42,7 @@ function EVCarSVG() {
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
 
-        {/* Dark glossy body — looks like a real dark car */}
+        {/* Dark glossy body â€” looks like a real dark car */}
         <linearGradient id="g-body" x1="0" y1="0" x2="0.3" y2="1">
           <stop offset="0%" stopColor="#1e2b24" stopOpacity="0.97" />
           <stop offset="55%" stopColor="#111a14" stopOpacity="0.98" />
@@ -73,12 +73,12 @@ function EVCarSVG() {
         </radialGradient>
       </defs>
 
-      {/* ── GROUND ── */}
+      {/* â”€â”€ GROUND â”€â”€ */}
       <ellipse cx="392" cy="378" rx="320" ry="24" fill="url(#g-ground)" />
       <ellipse cx="392" cy="370" rx="296" ry="13" fill="rgba(0,0,0,0.7)" />
       <line x1="55" y1="370" x2="725" y2="370" stroke="rgba(247,244,239,0.06)" strokeWidth="0.7" />
 
-      {/* ── MAIN BODY ── */}
+      {/* â”€â”€ MAIN BODY â”€â”€ */}
       <path
         d="
           M 34,285
@@ -107,19 +107,19 @@ function EVCarSVG() {
         strokeWidth="1"
       />
 
-      {/* ── ROOF HIGHLIGHT (reflected light) ── */}
+      {/* â”€â”€ ROOF HIGHLIGHT (reflected light) â”€â”€ */}
       <path
         d="M 300,127 C 380,124 490,124 596,127 L 590,138 C 490,135 380,135 306,138 Z"
         fill="url(#g-roof-shine)"
       />
 
-      {/* ── HOOD HIGHLIGHT ── */}
+      {/* â”€â”€ HOOD HIGHLIGHT â”€â”€ */}
       <path
         d="M 60,253 C 100,241 145,228 175,214 C 200,209 226,202 255,196 L 250,188 C 220,194 192,202 165,208 C 135,220 95,233 55,245 Z"
         fill="url(#g-hood-shine)"
       />
 
-      {/* ── CABIN / GREENHOUSE ── */}
+      {/* â”€â”€ CABIN / GREENHOUSE â”€â”€ */}
       <path
         d="
           M 267,165
@@ -171,7 +171,7 @@ function EVCarSVG() {
         strokeWidth="0.8"
       />
 
-      {/* ── HEADLIGHT — gold DRL ── */}
+      {/* â”€â”€ HEADLIGHT â€” gold DRL â”€â”€ */}
       {/* Bloom behind */}
       <ellipse cx="56" cy="265" rx="38" ry="18" fill="rgba(168,133,73,0.22)" filter="url(#g-strong)" />
       {/* Housing */}
@@ -187,7 +187,7 @@ function EVCarSVG() {
       {/* Light beam */}
       <path d="M 36,265 C 8,255 -10,248 -22,245" stroke="#A88549" strokeWidth="0.7" opacity="0.2" strokeDasharray="5 3" />
 
-      {/* ── TAILLIGHT — warm amber/gold ── */}
+      {/* â”€â”€ TAILLIGHT â€” warm amber/gold â”€â”€ */}
       <ellipse cx="716" cy="252" rx="26" ry="20" fill="rgba(168,133,73,0.18)" filter="url(#g-strong)" />
       <rect x="707" y="225" width="15" height="38" rx="3"
         fill="rgba(168,133,73,0.12)"
@@ -197,7 +197,7 @@ function EVCarSVG() {
       />
       <line x1="711" y1="231" x2="711" y2="256" stroke="#A88549" strokeWidth="3" opacity="0.85" strokeLinecap="round" filter="url(#g-glow)" />
 
-      {/* ── FRONT WHEEL ── */}
+      {/* â”€â”€ FRONT WHEEL â”€â”€ */}
       {/* Tire */}
       <circle cx="186" cy="333" r="52" fill="#0e1510" stroke="rgba(247,244,239,0.1)" strokeWidth="1.5" />
       {/* Tire highlight */}
@@ -210,7 +210,7 @@ function EVCarSVG() {
       <circle cx="186" cy="333" r="6" fill="rgba(168,133,73,0.8)" filter="url(#g-glow)" />
       <WheelSpokes cx={186} cy={333} r1={18} r2={38} />
 
-      {/* ── REAR WHEEL ── */}
+      {/* â”€â”€ REAR WHEEL â”€â”€ */}
       <circle cx="578" cy="333" r="52" fill="#0e1510" stroke="rgba(247,244,239,0.1)" strokeWidth="1.5" />
       <path d="M 540,298 C 550,290 566,286 578,287 C 590,288 604,292 610,300"
         stroke="rgba(255,255,255,0.07)" strokeWidth="2" fill="none" strokeLinecap="round" />
@@ -225,7 +225,7 @@ function EVCarSVG() {
 const stats = [
   { value: "100%", label: "Electric", color: "#A88549" },
   { value: "24/7", label: "Available", color: "#f7f4ef" },
-  { value: "0 kg", label: "CO₂ Direct", color: "#A88549" },
+  { value: "0 kg", label: "COâ‚‚ Direct", color: "#A88549" },
 ];
 
 export default function Hero() {
@@ -235,7 +235,7 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ background: "#08100d" }}
     >
-      {/* ── Right-side warm glow (brand neutral, replaces blue) ── */}
+      {/* â”€â”€ Right-side warm glow (brand neutral, replaces blue) â”€â”€ */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -263,7 +263,7 @@ export default function Hero() {
         }}
       />
 
-      {/* ── Badge — centered, 20px below navbar ── */}
+      {/* â”€â”€ Badge â€” centered, 20px below navbar â”€â”€ */}
       <div className="absolute top-[88px] inset-x-0 flex justify-center z-20 pointer-events-none">
         <div
           className="inline-flex items-center gap-2.5 pointer-events-auto"
@@ -279,16 +279,16 @@ export default function Hero() {
             style={{ boxShadow: "0 0 8px #A88549" }}
           />
           <span className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#f7f4ef]/60">
-            Premium EV Transportation · Kigali
+            Premium EV Transportation Â· Kigali
           </span>
         </div>
       </div>
 
-      {/* ── Content ── */}
+      {/* â”€â”€ Content â”€â”€ */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full pt-44 pb-12 lg:pt-52 lg:pb-20">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-4 items-center">
 
-          {/* ── LEFT: Text ── */}
+          {/* â”€â”€ LEFT: Text â”€â”€ */}
           <div className="lg:pr-8">
 
             {/* Headline */}
@@ -317,10 +317,10 @@ export default function Hero() {
             {/* Description */}
             <p className="text-[#f7f4ef]/45 text-[1.06rem] leading-relaxed mb-10 max-w-[420px]">
               Rwanda&apos;s first fully electric VIP fleet. Premium comfort, zero direct emissions,
-              available every day — for corporate clients, individuals, and tourists.
+              available every day â€” for corporate clients, individuals, and tourists.
             </p>
 
-            {/* CTAs — side by side under the words */}
+            {/* CTAs â€” side by side under the words */}
             <div className="flex items-center gap-3 mb-0">
               <a
                 href={WA_LINK}
@@ -356,7 +356,7 @@ export default function Hero() {
 
           </div>
 
-          {/* ── RIGHT: Car ── */}
+          {/* â”€â”€ RIGHT: Car â”€â”€ */}
           <div className="relative flex items-center justify-center lg:justify-end float-slow">
             {/* Warm glow bloom directly behind the car */}
             <div
@@ -373,7 +373,7 @@ export default function Hero() {
 
         </div>
 
-        {/* ── Stats — full-width row, below car, centered ── */}
+        {/* â”€â”€ Stats â€” full-width row, below car, centered â”€â”€ */}
         <div className="w-full flex items-center justify-center gap-14 sm:gap-24 mt-10 lg:mt-14">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
@@ -401,3 +401,4 @@ export default function Hero() {
     </section>
   );
 }
+

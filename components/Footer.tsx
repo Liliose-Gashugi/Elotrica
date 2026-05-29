@@ -1,4 +1,4 @@
-const WA_LINK = "https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.";
+﻿const WA_LINK = "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.";
 
 const nav = [
   { label: "Services", href: "#services" },
@@ -62,7 +62,7 @@ export default function Footer() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                Kigali, Rwanda · Daily 5AM – 11PM
+                Kigali, Rwanda Â· Daily 5AM â€“ 11PM
               </div>
             </div>
           </div>
@@ -99,19 +99,20 @@ export default function Footer() {
         <div className="h-px bg-[#f7f4ef]/5" />
         <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[#f7f4ef]/20">
-            © {new Date().getFullYear()} Elotrica Ltd. All rights reserved.
+            Â© {new Date().getFullYear()} Elotrica Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-3">
             <a href="#" className="text-xs text-[#f7f4ef]/25 hover:text-[#f7f4ef]/50 transition-colors">Privacy Policy</a>
-            <span className="text-[#f7f4ef]/15 text-xs">·</span>
+            <span className="text-[#f7f4ef]/15 text-xs">Â·</span>
             <a href="#" className="text-xs text-[#f7f4ef]/25 hover:text-[#f7f4ef]/50 transition-colors">Terms &amp; Conditions</a>
           </div>
           <div className="flex items-center gap-2 text-[10px] text-[#f7f4ef]/18 tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-[#2d7a60] opacity-60" />
-            100% Electric · Kigali, Rwanda
+            100% Electric Â· Kigali, Rwanda
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

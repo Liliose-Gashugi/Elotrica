@@ -1,6 +1,6 @@
-import FadeIn from "./FadeIn";
+﻿import FadeIn from "./FadeIn";
 
-const WA_BASE = "https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%27m%20interested%20in%20";
+const WA_BASE = "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%27m%20interested%20in%20";
 
 const services = [
   {
@@ -24,7 +24,7 @@ const services = [
     tag: "Personal",
     title: "Individual & Leisure",
     description:
-      "Premium transportation for special occasions, airport pick-ups, and everyday travel. Your schedule, your comfort — no compromises.",
+      "Premium transportation for special occasions, airport pick-ups, and everyday travel. Your schedule, your comfort â€” no compromises.",
     features: ["Airport transfers", "Special occasion hire", "Hourly charter", "Child seat on request"],
     cta: "Individual Service",
     accentFrom: "#2d7a60",
@@ -41,7 +41,7 @@ const services = [
     tag: "Tourism",
     title: "Visitor & Tourist",
     description:
-      "Discover Rwanda with a knowledgeable driver and a pristine EV. Gorilla treks, city tours, and multi-day itineraries — all stress-free.",
+      "Discover Rwanda with a knowledgeable driver and a pristine EV. Gorilla treks, city tours, and multi-day itineraries â€” all stress-free.",
     features: ["Gorilla trekking transfers", "Kigali city tours", "Multi-day packages", "Local guide integration"],
     cta: "Tourist Package",
     accentFrom: "#A88549",
@@ -59,7 +59,7 @@ export default function Services() {
     <section id="services" className="py-28 lg:py-36 bg-[#f7f4ef] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        {/* Section header — centered */}
+        {/* Section header â€” centered */}
         <div className="text-center mb-16 lg:mb-20">
           <FadeIn direction="none">
             <span className="text-xs font-semibold tracking-[0.3em] text-[#A88549] uppercase block mb-4">What We Offer</span>
@@ -75,7 +75,7 @@ export default function Services() {
               </span>
             </h2>
             <p className="text-[#122820]/55 max-w-sm mx-auto text-base leading-relaxed">
-              Three premium tiers. One standard — extraordinary. Choose what fits your travel, and let us handle the rest.
+              Three premium tiers. One standard â€” extraordinary. Choose what fits your travel, and let us handle the rest.
             </p>
           </FadeIn>
         </div>
@@ -193,3 +193,4 @@ export default function Services() {
     </section>
   );
 }
+

@@ -1,6 +1,6 @@
-import FadeIn from "./FadeIn";
+﻿import FadeIn from "./FadeIn";
 
-const WA_LINK = "https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.";
+const WA_LINK = "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.";
 
 const steps = [
   {
@@ -25,7 +25,7 @@ const steps = [
   {
     n: "04",
     title: "Get your confirmation",
-    body: "We send driver details, vehicle info, and final price — all on WhatsApp before your ride.",
+    body: "We send driver details, vehicle info, and final price â€” all on WhatsApp before your ride.",
     accent: "#2d7a60",
   },
   {
@@ -56,7 +56,7 @@ export default function HowItWorks() {
           </FadeIn>
         </div>
 
-        {/* Steps — vertical timeline */}
+        {/* Steps â€” vertical timeline */}
         <div className="relative">
           {/* Vertical line */}
           <div className="absolute left-[19px] top-3 bottom-3 w-px bg-gradient-to-b from-[#A88549]/0 via-[#A88549]/20 to-[#A88549]/0 hidden sm:block" />
@@ -133,3 +133,4 @@ export default function HowItWorks() {
     </section>
   );
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 
 const links = [
@@ -9,7 +9,7 @@ const links = [
   { label: "How It Works", href: "#how" },
 ];
 
-const WA_LINK = `https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.`;
+const WA_LINK = `https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.`;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -135,3 +135,4 @@ export default function Navbar() {
     </header>
   );
 }
+

@@ -1,7 +1,7 @@
-import FadeIn from "./FadeIn";
+﻿import FadeIn from "./FadeIn";
 
 const WA_LINK =
-  "https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20%0APassengers%3A%20";
+  "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20%0APassengers%3A%20";
 
 const perks = ["No booking fee", "Instant reply", "24/7 support", "Zero emissions"];
 
@@ -88,7 +88,7 @@ export default function CTASection() {
               </a>
 
               <p className="text-[#f7f4ef]/20 text-xs mt-4">
-                Replies in under 5 min · Available daily 5:00 AM – 11:00 PM
+                Replies in under 5 min Â· Available daily 5:00 AM â€“ 11:00 PM
               </p>
             </div>
           </div>
@@ -97,3 +97,4 @@ export default function CTASection() {
     </section>
   );
 }
+

@@ -1,6 +1,6 @@
-import FadeIn from "./FadeIn";
+﻿import FadeIn from "./FadeIn";
 
-const WA_BASE = "https://wa.me/250788000000?text=Hello%20Elotrica%2C%20I%27d%20like%20to%20enquire%20about%20";
+const WA_BASE = "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%27d%20like%20to%20enquire%20about%20";
 
 const plans = [
   {
@@ -37,10 +37,10 @@ const plans = [
 ];
 
 const routes = [
-  { from: "Airport", to: "City Centre", price: "RWF 8k – 12k", time: "~25 min" },
-  { from: "Kigali", to: "Musanze (Gorillas)", price: "RWF 60k – 80k", time: "~2.5 hrs" },
-  { from: "Hotel", to: "CHUK / Hospital", price: "RWF 5k – 8k", time: "~15 min" },
-  { from: "Full-day", to: "Kigali City Tour", price: "RWF 80k – 120k", time: "8 hrs" },
+  { from: "Airport", to: "City Centre", price: "RWF 8k â€“ 12k", time: "~25 min" },
+  { from: "Kigali", to: "Musanze (Gorillas)", price: "RWF 60k â€“ 80k", time: "~2.5 hrs" },
+  { from: "Hotel", to: "CHUK / Hospital", price: "RWF 5k â€“ 8k", time: "~15 min" },
+  { from: "Full-day", to: "Kigali City Tour", price: "RWF 80k â€“ 120k", time: "8 hrs" },
 ];
 
 export default function Pricing() {
@@ -48,7 +48,7 @@ export default function Pricing() {
     <section id="pricing" className="py-28 lg:py-36 bg-[#f7f4ef] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        {/* Header — centered */}
+        {/* Header â€” centered */}
         <div className="text-center mb-16">
           <FadeIn direction="none">
             <span className="text-xs font-semibold tracking-[0.3em] text-[#A88549] uppercase block mb-4">Pricing</span>
@@ -178,7 +178,7 @@ export default function Pricing() {
           >
             <div className="px-7 py-5 border-b border-[#ece8e0]">
               <h3 className="text-base font-bold text-[#122820]">Sample Route Estimates</h3>
-              <p className="text-xs text-[#122820]/40 mt-0.5">Real prices confirmed on booking · varies by vehicle & demand</p>
+              <p className="text-xs text-[#122820]/40 mt-0.5">Real prices confirmed on booking Â· varies by vehicle & demand</p>
             </div>
             <div className="divide-y divide-[#ece8e0]">
               {routes.map((r) => (
@@ -190,7 +190,7 @@ export default function Pricing() {
                       <div className="w-1.5 h-1.5 rounded-full bg-[#A88549]" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-[#122820]">{r.from} → {r.to}</div>
+                      <div className="text-sm font-medium text-[#122820]">{r.from} â†’ {r.to}</div>
                       <div className="text-xs text-[#122820]/40">{r.time}</div>
                     </div>
                   </div>
@@ -204,3 +204,4 @@ export default function Pricing() {
     </section>
   );
 }
+
