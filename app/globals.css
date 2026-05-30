@@ -32,6 +32,17 @@ h1, h2, h3, h4 {
   font-family: var(--font-playfair), 'Playfair Display', serif;
 }
 
+/* ── Video initial cover (hides YouTube play button) ──── */
+@keyframes video-cover-fadeout {
+  0%   { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.video-initial-cover {
+  animation: video-cover-fadeout 3s ease-out 0.3s forwards;
+  pointer-events: none;
+}
+
 /* ── Marquee ───────────────────────────────────────────── */
 @keyframes marquee-left {
   from { transform: translateX(0); }

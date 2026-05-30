@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 90" role="img" aria-label="Elotrica">
+  <text
+    x="0"
+    y="78"
+    fill="#A88549"
+    font-family="'Barlow','Oswald','DIN Condensed','Arial Black',Helvetica,sans-serif"
+    font-weight="800"
+    font-size="90"
+    letter-spacing="3"
+  >ELOTR<tspan
+    font-size="60"
+    dy="12"
+    letter-spacing="0"
+  >i</tspan><tspan
+    font-size="90"
+    dy="-12"
+    letter-spacing="3"
+  >CA</tspan></text>
+</svg>

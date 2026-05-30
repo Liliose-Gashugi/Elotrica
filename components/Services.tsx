@@ -1,6 +1,6 @@
 ﻿import FadeIn from "./FadeIn";
 
-const WA_BASE = "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%27m%20interested%20in%20";
+const WA_BASE = "https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%27m%20interested%20in%20";
 
 const services = [
   {
@@ -24,7 +24,7 @@ const services = [
     tag: "Personal",
     title: "Individual & Leisure",
     description:
-      "Premium transportation for special occasions, airport pick-ups, and everyday travel. Your schedule, your comfort â€” no compromises.",
+      "Premium transportation for special occasions, airport pick-ups, and everyday travel. Your schedule, your comfort — no compromises.",
     features: ["Airport transfers", "Special occasion hire", "Hourly charter", "Child seat on request"],
     cta: "Individual Service",
     accentFrom: "#2d7a60",
@@ -41,7 +41,7 @@ const services = [
     tag: "Tourism",
     title: "Visitor & Tourist",
     description:
-      "Discover Rwanda with a knowledgeable driver and a pristine EV. Gorilla treks, city tours, and multi-day itineraries â€” all stress-free.",
+      "Discover Rwanda with a knowledgeable driver and a pristine EV. Gorilla treks, city tours, and multi-day itineraries — all stress-free.",
     features: ["Gorilla trekking transfers", "Kigali city tours", "Multi-day packages", "Local guide integration"],
     cta: "Tourist Package",
     accentFrom: "#A88549",
@@ -59,7 +59,7 @@ export default function Services() {
     <section id="services" className="py-28 lg:py-36 bg-[#f7f4ef] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        {/* Section header â€” centered */}
+        {/* Section header — centered */}
         <div className="text-center mb-16 lg:mb-20">
           <FadeIn direction="none">
             <span className="text-xs font-semibold tracking-[0.3em] text-[#A88549] uppercase block mb-4">What We Offer</span>
@@ -71,11 +71,11 @@ export default function Services() {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
               }}>
-                every journey.
+                your every journey.
               </span>
             </h2>
             <p className="text-[#122820]/55 max-w-sm mx-auto text-base leading-relaxed">
-              Three premium tiers. One standard â€” extraordinary. Choose what fits your travel, and let us handle the rest.
+              Three premium tiers. One standard — extraordinary. Choose what fits your travel, and let us handle the rest.
             </p>
           </FadeIn>
         </div>
@@ -148,18 +148,6 @@ export default function Services() {
                     {s.description}
                   </p>
 
-                  {/* Features */}
-                  <ul className="space-y-2 mb-7">
-                    {s.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5 text-sm">
-                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={s.accentFrom} strokeWidth={3}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span style={{ color: s.featured ? "rgba(247,244,239,0.7)" : "rgba(18,40,32,0.65)" }}>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
                   {/* CTA */}
                   <a
                     href={`${WA_BASE}${encodeURIComponent(s.cta)}`}
@@ -193,4 +181,5 @@ export default function Services() {
     </section>
   );
 }
+
 

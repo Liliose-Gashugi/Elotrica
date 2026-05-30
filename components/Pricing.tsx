@@ -1,6 +1,6 @@
 ﻿import FadeIn from "./FadeIn";
 
-const WA_BASE = "https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%27d%20like%20to%20enquire%20about%20";
+const WA_BASE = "https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%27d%20like%20to%20enquire%20about%20";
 
 const plans = [
   {
@@ -204,4 +204,5 @@ export default function Pricing() {
     </section>
   );
 }
+
 

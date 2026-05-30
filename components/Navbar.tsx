@@ -1,15 +1,15 @@
 ﻿"use client";
 import { useState, useEffect } from "react";
+import Logo from "./Logo";
 
 const links = [
   { label: "Services", href: "#services" },
   { label: "Fleet", href: "#fleet" },
-  { label: "Pricing", href: "#pricing" },
   { label: "About", href: "#why" },
   { label: "How It Works", href: "#how" },
 ];
 
-const WA_LINK = `https://wa.me/250780498807?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.`;
+const WA_LINK = `https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.`;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -24,33 +24,18 @@ export default function Navbar() {
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={
-        scrolled
-          ? {
-              background: "rgba(18, 40, 32, 0.85)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              borderBottom: "1px solid rgba(168, 133, 73, 0.15)",
-              boxShadow: "0 4px 40px rgba(0,0,0,0.25)",
-            }
-          : { background: "transparent" }
-      }
+      style={{
+        background: scrolled ? "rgba(18,40,32,0.95)" : "rgba(18,40,32,0.82)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(168,133,73,0.12)",
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-[72px]">
 
         {/* Logo */}
-        <a href="#hero" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-[#A88549] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <span
-            className="text-xl font-bold text-[#f7f4ef] tracking-wider"
-            style={{ fontFamily: "var(--font-playfair), serif" }}
-          >
-            ELOTRICA
-          </span>
+        <a href="#hero" className="flex items-center group-hover:opacity-90 transition-opacity">
+          <Logo height="h-10" />
         </a>
 
         {/* Desktop nav */}
@@ -135,4 +120,5 @@ export default function Navbar() {
     </header>
   );
 }
+
 
