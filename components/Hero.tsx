@@ -17,7 +17,7 @@ declare global {
   interface Window {
     YT: {
       Player: new (el: HTMLElement, opts: Record<string, unknown>) => YTPlayer;
-      PlayerState: { ENDED: number };
+      PlayerState: { ENDED: number; PLAYING: number; PAUSED: number; BUFFERING: number };
     };
     onYouTubeIframeAPIReady?: () => void;
   }
@@ -63,13 +63,23 @@ export default function Hero() {
           onReady: (e: { target: YTPlayer }) => {
             e.target.seekTo(START, true);
             e.target.playVideo();
-            // Reveal video after it starts playing
-            setTimeout(() => setCovered(false), 1200);
           },
           onStateChange: (e: { data: number; target: YTPlayer }) => {
-            if (e.data === 0) {
-              flashCover();
+            const { PLAYING, PAUSED, ENDED } = window.YT.PlayerState;
+            if (e.data === PLAYING) {
+              // Video is confirmed playing — reveal it
+              setTimeout(() => setCovered(false), 150);
+            } else if (e.data === PAUSED) {
+              // Paused (shouldn't happen but cover + resume)
+              setCovered(true);
+              setTimeout(() => e.target.playVideo(), 120);
+            } else if (e.data === ENDED) {
+              // Loop back
+              setCovered(true);
               setTimeout(() => { e.target.seekTo(START, true); e.target.playVideo(); }, 80);
+            } else {
+              // Buffering / unstarted — keep cover on
+              setCovered(true);
             }
           },
         },
@@ -91,13 +101,12 @@ export default function Hero() {
       window.onYouTubeIframeAPIReady = () => { prev?.(); initPlayer(); };
     }
 
-    /* Interval guard: seek back if player drifts past END, with cover flash */
+    /* Interval guard: catch any drift past END */
     const guard = setInterval(() => {
       try {
         const t = playerRef.current?.getCurrentTime();
-        if (t !== undefined && t >= END - 0.4) {
-          flashCover();
-          setTimeout(() => { playerRef.current?.seekTo(START, true); playerRef.current?.playVideo(); }, 80);
+        if (t !== undefined && t >= END - 0.3) {
+          playerRef.current?.seekTo(START, true);
         }
       } catch (_) { /* ignore */ }
     }, 400);
@@ -112,7 +121,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative flex flex-col items-center justify-start overflow-hidden lg:min-h-screen"
       style={{ background: "#050a08" }}
     >
       {/* ── YouTube background (IFrame API — full JS control) ── */}
@@ -176,11 +185,11 @@ export default function Hero() {
       />
 
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-5 lg:px-8 w-full text-center pt-20 pb-6 lg:pt-[100px] lg:pb-10">
+      <div className="relative z-10 max-w-4xl mx-auto px-5 lg:px-8 w-full text-center pt-24 pb-10 lg:pt-[110px] lg:pb-14 flex flex-col gap-5 lg:gap-6 items-center">
 
         {/* Badge */}
         <div
-          className="inline-flex items-center gap-2.5 mb-4"
+          className="inline-flex items-center gap-2.5"
           style={{
             background: "rgba(168,133,73,0.12)",
             border: "1px solid rgba(168,133,73,0.25)",
@@ -196,7 +205,7 @@ export default function Hero() {
 
         {/* Headline */}
         <h1
-          className="font-bold leading-[1.06] mb-3 tracking-tight"
+          className="font-bold leading-[1.06] tracking-tight"
           style={{ fontSize: "clamp(1.55rem, 7vw, 4.2rem)", fontFamily: "var(--font-playfair), serif" }}
         >
           <span className="text-[#f7f4ef] block">Rwanda&apos;s Trusted Luxury</span>
@@ -218,7 +227,7 @@ export default function Hero() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 font-semibold px-7 py-[11px] rounded-full text-white text-[0.88rem] transition-all hover:scale-[1.04] active:scale-95 mb-5 lg:mb-8"
+          className="group inline-flex items-center gap-3 font-semibold px-7 py-[11px] rounded-full text-white text-[0.88rem] transition-all hover:scale-[1.04] active:scale-95"
           style={{
             background: "linear-gradient(135deg, #A88549 0%, #c9a55a 100%)",
             boxShadow: "0 0 45px rgba(168,133,73,0.55), 0 4px 24px rgba(0,0,0,0.35)",
@@ -231,7 +240,7 @@ export default function Hero() {
         </a>
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-8 sm:gap-16 mb-4 lg:mb-6">
+        <div className="flex items-center justify-center gap-8 sm:gap-16">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
               <div
