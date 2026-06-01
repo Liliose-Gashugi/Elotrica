@@ -14,12 +14,13 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden"
       style={{ background: "#050a08" }}
     >
-      {/* ── YouTube video background ── */}
+      {/* ── Native video background — no YouTube UI ── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/VGAh4tVEFms?autoplay=1&mute=1&loop=1&playlist=VGAh4tVEFms&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&disablekb=1&fs=0&start=32&end=95&cc_load_policy=0"
-          title="Elotrica background"
-          allow="autoplay; encrypted-media"
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
           style={{
             position: "absolute",
             width: "177.78vh",
@@ -29,31 +30,29 @@ export default function Hero() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            border: "none",
+            objectFit: "cover",
             pointerEvents: "none",
           }}
-        />
+        >
+          {/* Porsche 911 Targa — FPV drone cinematic 4K, 76 s, no text overlays */}
+          <source
+            src="https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a8/Two_Porsche_911_Targa_driving_as_viewed_from_FPV_drone.webm/Two_Porsche_911_Targa_driving_as_viewed_from_FPV_drone.webm.720p.vp9.webm"
+            type="video/webm"
+          />
+          <source
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Two_Porsche_911_Targa_driving_as_viewed_from_FPV_drone.webm"
+            type="video/webm"
+          />
+        </video>
 
-        {/* Base overlay — darkens the video evenly */}
-        <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.60)" }} />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.62)" }} />
 
-        {/* Bottom overlay — covers burned-in text AND YouTube branding */}
+        {/* Bottom fade */}
         <div
           className="absolute bottom-0 inset-x-0 z-[2]"
-          style={{ height: "38%", background: "linear-gradient(to bottom, transparent 0%, rgba(5,10,8,0.82) 35%, rgba(5,10,8,0.97) 65%, rgba(4,8,6,1) 100%)" }}
+          style={{ height: "30%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,0.95) 80%, rgba(4,8,6,1) 100%)" }}
         />
-
-        {/* Extra solid patch for YouTube bottom-right UI */}
-        <div
-          className="absolute bottom-0 right-0 z-[3]"
-          style={{ width: "360px", height: "100px", background: "rgba(4,8,6,1)" }}
-        />
-
-        {/* Full pointer-events blocker */}
-        <div className="absolute inset-0 z-[4]" />
-
-        {/* Initial cover — hides YouTube play button until video starts */}
-        <div className="video-initial-cover absolute inset-0 z-[5]" style={{ background: "#050a08" }} />
       </div>
 
       {/* Faint grid */}
@@ -82,7 +81,7 @@ export default function Hero() {
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#A88549] flex-shrink-0" style={{ boxShadow: "0 0 8px #A88549" }} />
           <span className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#f7f4ef]/70">
-            Premium EV Transportation &middot; Kigali
+            Premium EV Transportation
           </span>
         </div>
 
@@ -105,12 +104,6 @@ export default function Hero() {
           </span>
         </h1>
 
-        {/* Description */}
-        <p className="text-[#f7f4ef]/60 text-[0.95rem] leading-relaxed mb-6 max-w-xl mx-auto">
-          Rwanda&apos;s No 1 fully electric VIP fleet. Premium comfort, zero direct emissions,
-          available every day for corporate clients, individuals, and tourists.
-        </p>
-
         {/* CTA */}
         <a
           href={WA_LINK}
@@ -129,7 +122,7 @@ export default function Hero() {
         </a>
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-10 sm:gap-16">
+        <div className="flex items-center justify-center gap-10 sm:gap-16 mb-6">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
               <div
@@ -146,6 +139,12 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
+        {/* Description — bottom of hero */}
+        <p className="text-[#f7f4ef]/55 text-[0.88rem] leading-relaxed max-w-lg mx-auto">
+          Rwanda&apos;s No 1 fully electric VIP fleet. Premium comfort, zero direct emissions,
+          available every day for corporate clients, individuals, and tourists.
+        </p>
       </div>
     </section>
   );

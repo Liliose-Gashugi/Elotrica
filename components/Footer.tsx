@@ -1,4 +1,4 @@
-import Logo from "./Logo";
+﻿import Logo from "./Logo";
 
 const WA_LINK = "https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.";
 
@@ -23,10 +23,10 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <a href="#hero" className="flex items-center mb-5 w-fit hover:opacity-80 transition-opacity">
-              <Logo height="h-10" />
+              <Logo height="h-[20px]" />
             </a>
 
-            <p className="text-sm text-[#f7f4ef]/40 max-w-[280px] leading-relaxed mb-7">
+            <p className="text-sm text-[#f7f4ef]/65 max-w-[280px] leading-relaxed mb-7">
               Rwanda&apos;s premium electric vehicle transportation service. Luxury travel. Zero emissions. 24/7.
             </p>
 
@@ -50,9 +50,9 @@ export default function Footer() {
                 </div>
                 info@elotrica.rw
               </a>
-              <div className="flex items-center gap-3 text-sm text-[#f7f4ef]/40">
+              <div className="flex items-center gap-3 text-sm text-[#f7f4ef]/65">
                 <div className="w-7 h-7 rounded-lg bg-[#f7f4ef]/5 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-3.5 h-3.5 text-[#f7f4ef]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+                  <svg className="w-3.5 h-3.5 text-[#f7f4ef]/65" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -64,12 +64,12 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h4 className="text-[11px] font-bold tracking-[0.25em] uppercase text-[#f7f4ef]/30 mb-5">Navigation</h4>
+            <h4 className="text-[11px] font-bold tracking-[0.25em] uppercase text-[#f7f4ef]/55 mb-5">Navigation</h4>
             <ul className="space-y-3">
               {nav.map((l) => (
                 <li key={l.href}>
                   <a href={l.href}
-                    className="text-sm text-[#f7f4ef]/45 hover:text-[#A88549] transition-colors">
+                    className="text-sm text-[#f7f4ef]/70 hover:text-[#A88549] transition-colors">
                     {l.label}
                   </a>
                 </li>
@@ -79,11 +79,11 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-[11px] font-bold tracking-[0.25em] uppercase text-[#f7f4ef]/30 mb-5">Services</h4>
+            <h4 className="text-[11px] font-bold tracking-[0.25em] uppercase text-[#f7f4ef]/55 mb-5">Services</h4>
             <ul className="space-y-3">
               {["Corporate VIP", "Individual & Leisure", "Visitor & Tourist", "Airport Transfers", "Multi-day Tours"].map((s) => (
                 <li key={s}>
-                  <span className="text-sm text-[#f7f4ef]/40">{s}</span>
+                  <span className="text-sm text-[#f7f4ef]/65">{s}</span>
                 </li>
               ))}
             </ul>
@@ -93,10 +93,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="h-px bg-[#f7f4ef]/5" />
         <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-[#f7f4ef]/20">
+          <p className="text-xs text-[#f7f4ef]/50">
             &copy; {new Date().getFullYear()} Elotrica Ltd. All rights reserved.
           </p>
-          <div className="flex items-center gap-2 text-[10px] text-[#f7f4ef]/25 tracking-wide">
+          <div className="flex items-center gap-2 text-[10px] text-[#f7f4ef]/55 tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-[#2d7a60] opacity-60" />
             100% Electric &middot; Rwanda
           </div>
@@ -105,3 +105,4 @@ export default function Footer() {
     </footer>
   );
 }
+

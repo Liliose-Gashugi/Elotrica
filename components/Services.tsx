@@ -75,7 +75,7 @@ export default function Services() {
               </span>
             </h2>
             <p className="text-[#122820]/55 max-w-sm mx-auto text-base leading-relaxed">
-              Three premium tiers. One standard — extraordinary. Choose what fits your travel, and let us handle the rest.
+              Three premium tiers. One standard — extraordinary. Choose what fits your travel, and <span style={{whiteSpace:"nowrap"}}>let us handle the rest.</span>
             </p>
           </FadeIn>
         </div>
@@ -111,12 +111,6 @@ export default function Services() {
                   {s.number}
                 </div>
 
-                {s.featured && (
-                  <div className="absolute top-8 right-6 flex items-center gap-1.5 text-[10px] font-semibold tracking-widest uppercase text-[#2d7a60] bg-[#2d7a60]/12 px-2.5 py-1 rounded-full">
-                    <span className="w-1 h-1 rounded-full bg-[#2d7a60]" />
-                    Popular
-                  </div>
-                )}
 
                 <div className="flex flex-col flex-1 p-7 pt-6">
                   {/* Icon */}

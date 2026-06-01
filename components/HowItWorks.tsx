@@ -126,7 +126,6 @@ export default function HowItWorks() {
               </svg>
               Start Booking on WhatsApp
             </a>
-            <p className="text-[#f7f4ef]/25 text-xs mt-3">Typically confirmed in under 5 minutes</p>
           </div>
         </FadeIn>
       </div>

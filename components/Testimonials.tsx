@@ -161,15 +161,6 @@ export default function Testimonials() {
         </div>
       </div>
 
-      {/* Marquee row 2 — scrolls right */}
-      <div className="marquee-wrap overflow-hidden">
-        <div className="marquee-track-right">
-          {row2.map((t, i) => (
-            <TestimonialCard key={`r2-${i}`} t={t} dark />
-          ))}
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-10">
         <FadeIn delay={100} direction="none">
           <p className="text-center text-[#f7f4ef]/20 text-xs">

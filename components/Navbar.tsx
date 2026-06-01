@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import Logo from "./Logo";
 
@@ -11,41 +11,88 @@ const links = [
 
 const WA_LINK = `https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.`;
 
+// Sections with light backgrounds — navbar must switch to dark text over these
+const LIGHT_SECTIONS = ["services", "fleet", "booking"];
+const DARK_SECTIONS  = ["hero", "why", "how", "testimonials", "footer"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen]         = useState(false);
+  const [onLight, setOnLight]   = useState(false);
 
   useEffect(() => {
+    // Scroll depth
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    // Section theme detection
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          if (LIGHT_SECTIONS.includes(id)) setOnLight(true);
+          if (DARK_SECTIONS.includes(id))  setOnLight(false);
+        });
+      },
+      // Fire when a section top crosses 72 px (navbar height) from the top
+      { rootMargin: "-72px 0px -45% 0px", threshold: 0 }
+    );
+
+    [...LIGHT_SECTIONS, ...DARK_SECTIONS].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
   }, []);
+
+  // ── Style tokens based on current section theme ──────────────────────────
+  const bg = onLight
+    ? scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.80)"
+    : scrolled ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.10)";
+
+  const border = onLight
+    ? "1px solid rgba(18,40,32,0.10)"
+    : "1px solid rgba(255,255,255,0.18)";
+
+  const shadow = scrolled
+    ? onLight
+      ? "0 4px 32px rgba(0,0,0,0.10)"
+      : "0 4px 32px rgba(0,0,0,0.14)"
+    : "none";
+
+  const linkClass = onLight
+    ? "text-sm font-medium px-4 py-2 rounded-lg transition-all text-[#122820] hover:text-[#A88549] hover:bg-black/5"
+    : "text-sm font-medium px-4 py-2 rounded-lg transition-all text-[#f7f4ef] hover:text-[#A88549] hover:bg-white/10";
+
+  const burgerColor = onLight ? "bg-[#122820]" : "bg-[#f7f4ef]";
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
       style={{
-        background: scrolled ? "rgba(18,40,32,0.95)" : "rgba(18,40,32,0.82)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(168,133,73,0.12)",
+        background: bg,
+        backdropFilter: "blur(28px)",
+        WebkitBackdropFilter: "blur(28px)",
+        borderBottom: border,
+        boxShadow: shadow,
       }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-[72px]">
 
         {/* Logo */}
-        <a href="#hero" className="flex items-center group-hover:opacity-90 transition-opacity">
-          <Logo height="h-10" />
+        <a href="#hero" className="flex items-center hover:opacity-80 transition-opacity">
+          <Logo height="h-[20px]" />
         </a>
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-[#f7f4ef]/65 hover:text-[#f7f4ef] px-4 py-2 rounded-lg hover:bg-white/5 transition-all"
-            >
+            <a key={l.href} href={l.href} className={linkClass}>
               {l.label}
             </a>
           ))}
@@ -56,11 +103,10 @@ export default function Navbar() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden lg:inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95"
+          className="hidden lg:inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 text-white"
           style={{
             background: "linear-gradient(135deg, #2d7a60, #1a5a47)",
-            color: "white",
-            boxShadow: "0 0 20px rgba(45, 122, 96, 0.35)",
+            boxShadow: "0 0 20px rgba(45,122,96,0.35)",
           }}
         >
           <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -75,31 +121,28 @@ export default function Navbar() {
           className="lg:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5"
           aria-label="Toggle menu"
         >
-          <span className={`block w-5 h-px bg-[#f7f4ef] transition-all duration-300 ${open ? "rotate-45 translate-y-[7px]" : ""}`} />
-          <span className={`block w-5 h-px bg-[#f7f4ef] transition-all duration-300 ${open ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-px bg-[#f7f4ef] transition-all duration-300 ${open ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+          <span className={`block w-5 h-px transition-all duration-300 ${burgerColor} ${open ? "rotate-45 translate-y-[7px]" : ""}`} />
+          <span className={`block w-5 h-px transition-all duration-300 ${burgerColor} ${open ? "opacity-0" : ""}`} />
+          <span className={`block w-5 h-px transition-all duration-300 ${burgerColor} ${open ? "-rotate-45 -translate-y-[7px]" : ""}`} />
         </button>
       </div>
 
       {/* Mobile drawer */}
-      <div
-        className="lg:hidden overflow-hidden transition-all duration-300"
-        style={{ maxHeight: open ? "400px" : "0px" }}
-      >
+      <div className="lg:hidden overflow-hidden transition-all duration-300" style={{ maxHeight: open ? "400px" : "0px" }}>
         <div
-          style={{
-            background: "rgba(18, 40, 32, 0.97)",
-            backdropFilter: "blur(20px)",
-            borderTop: "1px solid rgba(168,133,73,0.15)",
-          }}
           className="px-6 py-6 space-y-1"
+          style={{
+            background: "rgba(255,255,255,0.95)",
+            backdropFilter: "blur(24px)",
+            borderTop: "1px solid rgba(18,40,32,0.08)",
+          }}
         >
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block text-[#f7f4ef]/70 hover:text-[#A88549] py-2.5 text-sm transition-colors border-b border-[#f7f4ef]/5"
+              className="block text-[#122820]/80 hover:text-[#A88549] py-2.5 text-sm transition-colors border-b border-black/5 font-medium"
             >
               {l.label}
             </a>
@@ -109,8 +152,8 @@ export default function Navbar() {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 text-sm font-semibold px-5 py-3 rounded-full w-full"
-              style={{ background: "linear-gradient(135deg, #2d7a60, #1a5a47)", color: "white" }}
+              className="flex items-center justify-center gap-2 text-sm font-semibold px-5 py-3 rounded-full w-full text-white"
+              style={{ background: "linear-gradient(135deg, #2d7a60, #1a5a47)" }}
             >
               Book a Ride on WhatsApp
             </a>
@@ -120,5 +163,3 @@ export default function Navbar() {
     </header>
   );
 }
-
-
