@@ -112,7 +112,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{ background: "#050a08" }}
     >
       {/* ── YouTube background (IFrame API — full JS control) ── */}
@@ -176,11 +176,11 @@ export default function Hero() {
       />
 
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 w-full text-center pt-[100px] pb-10">
+      <div className="relative z-10 max-w-4xl mx-auto px-5 lg:px-8 w-full text-center pt-20 pb-6 lg:pt-[100px] lg:pb-10">
 
         {/* Badge */}
         <div
-          className="inline-flex items-center gap-2.5 mb-5"
+          className="inline-flex items-center gap-2.5 mb-4"
           style={{
             background: "rgba(168,133,73,0.12)",
             border: "1px solid rgba(168,133,73,0.25)",
@@ -196,8 +196,8 @@ export default function Hero() {
 
         {/* Headline */}
         <h1
-          className="font-bold leading-[1.06] mb-4 tracking-tight"
-          style={{ fontSize: "clamp(2rem, 4.5vw, 4.2rem)", fontFamily: "var(--font-playfair), serif" }}
+          className="font-bold leading-[1.06] mb-3 tracking-tight"
+          style={{ fontSize: "clamp(1.55rem, 7vw, 4.2rem)", fontFamily: "var(--font-playfair), serif" }}
         >
           <span className="text-[#f7f4ef] block">Rwanda&apos;s Trusted Luxury</span>
           <span
@@ -218,7 +218,7 @@ export default function Hero() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 font-semibold px-8 py-[13px] rounded-full text-white text-[0.9rem] transition-all hover:scale-[1.04] active:scale-95 mb-8"
+          className="group inline-flex items-center gap-3 font-semibold px-7 py-[11px] rounded-full text-white text-[0.88rem] transition-all hover:scale-[1.04] active:scale-95 mb-5 lg:mb-8"
           style={{
             background: "linear-gradient(135deg, #A88549 0%, #c9a55a 100%)",
             boxShadow: "0 0 45px rgba(168,133,73,0.55), 0 4px 24px rgba(0,0,0,0.35)",
@@ -231,13 +231,13 @@ export default function Hero() {
         </a>
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-10 sm:gap-16 mb-6">
+        <div className="flex items-center justify-center gap-8 sm:gap-16 mb-4 lg:mb-6">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
               <div
                 className="font-bold leading-none mb-1.5"
                 style={{
-                  fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)",
+                  fontSize: "clamp(1.2rem, 4vw, 1.9rem)",
                   fontFamily: "var(--font-playfair), serif",
                   color: s.color,
                 }}
@@ -250,7 +250,7 @@ export default function Hero() {
         </div>
 
         {/* Description */}
-        <p className="text-[#f7f4ef]/55 text-[0.88rem] leading-relaxed max-w-lg mx-auto">
+        <p className="text-[#f7f4ef]/55 text-[0.82rem] leading-relaxed max-w-lg mx-auto px-2">
           Rwanda&apos;s No 1 fully electric VIP fleet. Premium comfort, zero direct emissions,
           available every day for corporate clients, individuals, and tourists.
         </p>
