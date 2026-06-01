@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const WA_LINK = `https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20`;
 
@@ -7,20 +8,119 @@ const stats = [
   { value: "24/7",  label: "Available", color: "#f7f4ef" },
 ];
 
+const VIDEO_ID = "VGAh4tVEFms";
+const START    = 27;   // 0:27
+const END      = 71;   // 1:11
+
+/* Minimal YT types — avoids installing @types/youtube */
+declare global {
+  interface Window {
+    YT: {
+      Player: new (el: HTMLElement, opts: Record<string, unknown>) => YTPlayer;
+      PlayerState: { ENDED: number };
+    };
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+interface YTPlayer {
+  getCurrentTime: () => number;
+  seekTo: (s: number, allow?: boolean) => void;
+  playVideo: () => void;
+  destroy: () => void;
+}
+
 export default function Hero() {
+  const containerRef  = useRef<HTMLDivElement>(null);
+  const playerRef     = useRef<YTPlayer | null>(null);
+  const [covered, setCovered] = useState(true); // starts opaque, fades out once video plays
+
+  const flashCover = useCallback(() => {
+    setCovered(true);
+    setTimeout(() => setCovered(false), 600);
+  }, []);
+
+  useEffect(() => {
+    const initPlayer = () => {
+      if (!containerRef.current || playerRef.current) return;
+
+      playerRef.current = new window.YT.Player(containerRef.current, {
+        videoId: VIDEO_ID,
+        playerVars: {
+          autoplay:        1,
+          mute:            1,
+          controls:        0,
+          start:           START,
+          rel:             0,
+          modestbranding:  1,
+          iv_load_policy:  3,
+          playsinline:     1,
+          disablekb:       1,
+          fs:              0,
+          cc_load_policy:  0,
+          showinfo:        0,
+        },
+        events: {
+          onReady: (e: { target: YTPlayer }) => {
+            e.target.seekTo(START, true);
+            e.target.playVideo();
+            // Reveal video after it starts playing
+            setTimeout(() => setCovered(false), 1200);
+          },
+          onStateChange: (e: { data: number; target: YTPlayer }) => {
+            if (e.data === 0) {
+              flashCover();
+              setTimeout(() => { e.target.seekTo(START, true); e.target.playVideo(); }, 80);
+            }
+          },
+        },
+      } as Record<string, unknown>);
+    };
+
+    /* Load IFrame API once */
+    if (!document.getElementById("yt-iframe-api")) {
+      const s = document.createElement("script");
+      s.id  = "yt-iframe-api";
+      s.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(s);
+    }
+
+    if (window.YT?.Player) {
+      initPlayer();
+    } else {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { prev?.(); initPlayer(); };
+    }
+
+    /* Interval guard: seek back if player drifts past END, with cover flash */
+    const guard = setInterval(() => {
+      try {
+        const t = playerRef.current?.getCurrentTime();
+        if (t !== undefined && t >= END - 0.4) {
+          flashCover();
+          setTimeout(() => { playerRef.current?.seekTo(START, true); playerRef.current?.playVideo(); }, 80);
+        }
+      } catch (_) { /* ignore */ }
+    }, 400);
+
+    return () => {
+      clearInterval(guard);
+      playerRef.current?.destroy();
+      playerRef.current = null;
+    };
+  }, []);
+
   return (
     <section
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden"
       style={{ background: "#050a08" }}
     >
-      {/* ── Native video background — no YouTube UI ── */}
+      {/* ── YouTube background (IFrame API — full JS control) ── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+
+        {/* Player mount point — IFrame API injects <iframe> here */}
+        <div
+          ref={containerRef}
           style={{
             position: "absolute",
             width: "177.78vh",
@@ -30,28 +130,38 @@ export default function Hero() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            objectFit: "cover",
             pointerEvents: "none",
           }}
-        >
-          {/* Porsche 911 Targa — FPV drone cinematic 4K, 76 s, no text overlays */}
-          <source
-            src="https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a8/Two_Porsche_911_Targa_driving_as_viewed_from_FPV_drone.webm/Two_Porsche_911_Targa_driving_as_viewed_from_FPV_drone.webm.720p.vp9.webm"
-            type="video/webm"
-          />
-          <source
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Two_Porsche_911_Targa_driving_as_viewed_from_FPV_drone.webm"
-            type="video/webm"
-          />
-        </video>
+        />
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.62)" }} />
+        {/* Base dark overlay */}
+        <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.60)" }} />
 
-        {/* Bottom fade */}
+        {/* ── Subtitle mask — opaque band over the bottom ~22% where burned-in Chinese text sits */}
         <div
-          className="absolute bottom-0 inset-x-0 z-[2]"
-          style={{ height: "30%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,0.95) 80%, rgba(4,8,6,1) 100%)" }}
+          className="absolute inset-x-0 bottom-0 z-[2]"
+          style={{ height: "22%", background: "linear-gradient(to bottom, transparent 0%, rgba(5,10,8,0.92) 40%, rgba(4,8,6,1) 100%)" }}
+        />
+
+        {/* Top cover — hides YouTube title bar on load */}
+        <div
+          className="absolute inset-x-0 top-0 z-[2]"
+          style={{ height: "80px", background: "linear-gradient(to bottom, #050a08 50%, transparent 100%)" }}
+        />
+
+        {/* Bottom-right solid patch — covers YouTube logo */}
+        <div
+          className="absolute bottom-0 right-0 z-[3]"
+          style={{ width: "280px", height: "70px", background: "rgba(4,8,6,1)" }}
+        />
+
+        {/* Pointer-events blocker — prevents any YouTube interaction */}
+        <div className="absolute inset-0 z-[4]" />
+
+        {/* Seamless cover — hides YouTube play button on load and during each loop seek */}
+        <div
+          className="absolute inset-0 z-[5] transition-opacity duration-700"
+          style={{ background: "#050a08", opacity: covered ? 1 : 0, pointerEvents: "none" }}
         />
       </div>
 
@@ -66,9 +176,8 @@ export default function Hero() {
       />
 
       {/* ── Content ── */}
-      <div
-        className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 w-full text-center pt-[100px] pb-10"
-      >
+      <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 w-full text-center pt-[100px] pb-10">
+
         {/* Badge */}
         <div
           className="inline-flex items-center gap-2.5 mb-5"
@@ -140,7 +249,7 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* Description — bottom of hero */}
+        {/* Description */}
         <p className="text-[#f7f4ef]/55 text-[0.88rem] leading-relaxed max-w-lg mx-auto">
           Rwanda&apos;s No 1 fully electric VIP fleet. Premium comfort, zero direct emissions,
           available every day for corporate clients, individuals, and tourists.
