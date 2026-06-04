@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const WA_LINK = `https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20`;
 
@@ -8,113 +8,41 @@ const stats = [
   { value: "24/7",  label: "Available", color: "#f7f4ef" },
 ];
 
-const VIDEO_ID = "VGAh4tVEFms";
-const START    = 27;   // 0:27
-const END      = 71;   // 1:11
-
-/* Minimal YT types — avoids installing @types/youtube */
-declare global {
-  interface Window {
-    YT: {
-      Player: new (el: HTMLElement, opts: Record<string, unknown>) => YTPlayer;
-      PlayerState: { ENDED: number; PLAYING: number; PAUSED: number; BUFFERING: number };
-    };
-    onYouTubeIframeAPIReady?: () => void;
-  }
-}
-interface YTPlayer {
-  getCurrentTime: () => number;
-  seekTo: (s: number, allow?: boolean) => void;
-  playVideo: () => void;
-  destroy: () => void;
-}
+const START = 27;  // 0:27
+const END   = 71;  // 1:11
 
 export default function Hero() {
-  const containerRef  = useRef<HTMLDivElement>(null);
-  const playerRef     = useRef<YTPlayer | null>(null);
-  const [covered, setCovered] = useState(true); // starts opaque, fades out once video plays
-
-  const flashCover = useCallback(() => {
-    setCovered(true);
-    setTimeout(() => setCovered(false), 600);
-  }, []);
+  const videoRef    = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
-    const initPlayer = () => {
-      if (!containerRef.current || playerRef.current) return;
+    const v = videoRef.current;
+    if (!v) return;
 
-      playerRef.current = new window.YT.Player(containerRef.current, {
-        videoId: VIDEO_ID,
-        playerVars: {
-          autoplay:        1,
-          mute:            1,
-          controls:        0,
-          start:           START,
-          rel:             0,
-          modestbranding:  1,
-          iv_load_policy:  3,
-          playsinline:     1,
-          disablekb:       1,
-          fs:              0,
-          cc_load_policy:  0,
-          showinfo:        0,
-        },
-        events: {
-          onReady: (e: { target: YTPlayer }) => {
-            e.target.seekTo(START, true);
-            e.target.playVideo();
-          },
-          onStateChange: (e: { data: number; target: YTPlayer }) => {
-            const { PLAYING, PAUSED, ENDED } = window.YT.PlayerState;
-            if (e.data === PLAYING) {
-              // Video is confirmed playing — reveal it
-              setTimeout(() => setCovered(false), 150);
-            } else if (e.data === PAUSED) {
-              // Paused (shouldn't happen but cover + resume)
-              setCovered(true);
-              setTimeout(() => e.target.playVideo(), 120);
-            } else if (e.data === ENDED) {
-              // Loop back
-              setCovered(true);
-              setTimeout(() => { e.target.seekTo(START, true); e.target.playVideo(); }, 80);
-            } else {
-              // Buffering / unstarted — keep cover on
-              setCovered(true);
-            }
-          },
-        },
-      } as Record<string, unknown>);
+    // Seek to START when metadata is available
+    const onLoaded = () => {
+      v.currentTime = START;
+      v.play().catch(() => {});
     };
 
-    /* Load IFrame API once */
-    if (!document.getElementById("yt-iframe-api")) {
-      const s = document.createElement("script");
-      s.id  = "yt-iframe-api";
-      s.src = "https://www.youtube.com/iframe_api";
-      document.head.appendChild(s);
-    }
+    // Loop: jump back to START when we reach END
+    const onTimeUpdate = () => {
+      if (v.currentTime >= END) {
+        v.currentTime = START;
+      }
+    };
 
-    if (window.YT?.Player) {
-      initPlayer();
-    } else {
-      const prev = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => { prev?.(); initPlayer(); };
-    }
+    // Fade in once the video is actually playing
+    const onPlaying = () => setVideoReady(true);
 
-    /* Interval guard: catch any drift past END */
-    const guard = setInterval(() => {
-      try {
-        const t = playerRef.current?.getCurrentTime();
-        if (t !== undefined && t >= END - 0.3) {
-          playerRef.current?.seekTo(START, true);
-        }
-      } catch (_) { /* ignore */ }
-    }, 400);
+    v.addEventListener("loadedmetadata", onLoaded);
+    v.addEventListener("timeupdate", onTimeUpdate);
+    v.addEventListener("playing", onPlaying);
 
     return () => {
-      clearInterval(guard);
-      playerRef.current?.destroy();
-      playerRef.current = null;
+      v.removeEventListener("loadedmetadata", onLoaded);
+      v.removeEventListener("timeupdate", onTimeUpdate);
+      v.removeEventListener("playing", onPlaying);
     };
   }, []);
 
@@ -124,12 +52,16 @@ export default function Hero() {
       className="relative flex flex-col items-center justify-start overflow-hidden lg:min-h-screen"
       style={{ background: "#050a08" }}
     >
-      {/* ── YouTube background (IFrame API — full JS control) ── */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-
-        {/* Player mount point — IFrame API injects <iframe> here */}
-        <div
-          ref={containerRef}
+      {/* ── Local video — no YouTube, no controls, no UI ── */}
+      <div
+        className="absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000"
+        style={{ opacity: videoReady ? 1 : 0 }}
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
           style={{
             position: "absolute",
             width: "177.78vh",
@@ -139,38 +71,20 @@ export default function Hero() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
+            objectFit: "cover",
             pointerEvents: "none",
           }}
-        />
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
 
-        {/* Base dark overlay */}
+        {/* Dark overlay */}
         <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.60)" }} />
 
-        {/* ── Subtitle mask — opaque band over the bottom ~22% where burned-in Chinese text sits */}
+        {/* Bottom fade */}
         <div
-          className="absolute inset-x-0 bottom-0 z-[2]"
-          style={{ height: "22%", background: "linear-gradient(to bottom, transparent 0%, rgba(5,10,8,0.92) 40%, rgba(4,8,6,1) 100%)" }}
-        />
-
-        {/* Top cover — hides YouTube title bar on load */}
-        <div
-          className="absolute inset-x-0 top-0 z-[2]"
-          style={{ height: "80px", background: "linear-gradient(to bottom, #050a08 50%, transparent 100%)" }}
-        />
-
-        {/* Bottom-right solid patch — covers YouTube logo */}
-        <div
-          className="absolute bottom-0 right-0 z-[3]"
-          style={{ width: "280px", height: "70px", background: "rgba(4,8,6,1)" }}
-        />
-
-        {/* Pointer-events blocker — prevents any YouTube interaction */}
-        <div className="absolute inset-0 z-[4]" />
-
-        {/* Seamless cover — hides YouTube play button on load and during each loop seek */}
-        <div
-          className="absolute inset-0 z-[5] transition-opacity duration-700"
-          style={{ background: "#050a08", opacity: covered ? 1 : 0, pointerEvents: "none" }}
+          className="absolute bottom-0 inset-x-0 z-[2]"
+          style={{ height: "30%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,0.95) 80%, rgba(4,8,6,1) 100%)" }}
         />
       </div>
 
