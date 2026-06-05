@@ -5,6 +5,7 @@ import WhyElotrica from "@/components/WhyElotrica";
 import Fleet from "@/components/Fleet";
 import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
+import Gallery from "@/components/Gallery";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -18,6 +19,7 @@ export default function Home() {
       <Fleet />
       <HowItWorks />
       <Testimonials />
+      <Gallery />
       <CTASection />
       <Footer />
     </main>

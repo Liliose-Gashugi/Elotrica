@@ -7,6 +7,7 @@ const links = [
   { label: "Fleet", href: "#fleet" },
   { label: "About", href: "#why" },
   { label: "How It Works", href: "#how" },
+  { label: "Gallery", href: "#gallery" },
 ];
 
 const WA_LINK = `https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.`;

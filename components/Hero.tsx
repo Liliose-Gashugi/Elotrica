@@ -8,8 +8,8 @@ const stats = [
   { value: "24/7",  label: "Available", color: "#f7f4ef" },
 ];
 
-const START = 27;  // 0:27
-const END   = 71;  // 1:11
+const START = 27; // 0:27
+const END   = 71; // 1:11
 
 export default function Hero() {
   const videoRef    = useRef<HTMLVideoElement>(null);
@@ -19,29 +19,33 @@ export default function Hero() {
     const v = videoRef.current;
     if (!v) return;
 
-    // Seek to START when metadata is available
     const onLoaded = () => {
       v.currentTime = START;
       v.play().catch(() => {});
     };
 
-    // Loop: jump back to START when we reach END
     const onTimeUpdate = () => {
       if (v.currentTime >= END) {
         v.currentTime = START;
       }
     };
 
-    // Fade in once the video is actually playing
+    const onEnded = () => {
+      v.currentTime = START;
+      v.play().catch(() => {});
+    };
+
     const onPlaying = () => setVideoReady(true);
 
     v.addEventListener("loadedmetadata", onLoaded);
     v.addEventListener("timeupdate", onTimeUpdate);
+    v.addEventListener("ended", onEnded);
     v.addEventListener("playing", onPlaying);
 
     return () => {
       v.removeEventListener("loadedmetadata", onLoaded);
       v.removeEventListener("timeupdate", onTimeUpdate);
+      v.removeEventListener("ended", onEnded);
       v.removeEventListener("playing", onPlaying);
     };
   }, []);
@@ -81,10 +85,16 @@ export default function Hero() {
         {/* Dark overlay */}
         <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.60)" }} />
 
-        {/* Bottom fade */}
+        {/* Subtitle mask — solid band covering bottom ~18% where burned-in text sits */}
         <div
           className="absolute bottom-0 inset-x-0 z-[2]"
-          style={{ height: "30%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,0.95) 80%, rgba(4,8,6,1) 100%)" }}
+          style={{ height: "18%", background: "rgba(4,8,6,1)" }}
+        />
+
+        {/* Bottom fade — blends the solid mask into the video above it */}
+        <div
+          className="absolute bottom-[18%] inset-x-0 z-[2]"
+          style={{ height: "16%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,1) 100%)" }}
         />
       </div>
 
