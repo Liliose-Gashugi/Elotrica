@@ -1,29 +1,141 @@
+"use client";
+import { useState } from "react";
 import FadeIn from "./FadeIn";
 
-const vehicles = [
+type Vehicle = {
+  images: string[];
+  name: string;
+  year: string;
+  category: string;
+  passengers: number;
+  range: string;
+  features: string[];
+  badge: string;
+};
+
+const vehicles: Vehicle[] = [
   {
-    image: "https://avtopanda.by/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2023/10/2.jpg.webp",
+    images: [
+      "/byd-song-plus/1.jpg", // exterior — first
+      "/byd-song-plus/2.jpg", // center console
+      "/byd-song-plus/3.jpg", // panoramic sunroof
+      "/byd-song-plus/4.jpg", // dashboard side
+      "/byd-song-plus/5.jpg", // cockpit
+      "/byd-song-plus/6.png", // full dashboard
+    ],
     name: "BYD Song Plus",
     year: "2025",
     category: "Executive SUV",
     passengers: 5,
     range: "580 km",
     features: ["Premium audio", "Heated seats", "Panoramic roof", "WiFi hotspot"],
-    accent: "#A88549",
     badge: "Executive SUV",
   },
   {
-    image: "https://evcentral.com.au/wp-content/uploads/2025/02/Image3KiaPV5Cargo.png",
+    images: [
+      "/hiace/1.webp", // exterior — first (user-selected)
+      "/hiace/2.jpeg", // cockpit / dashboard
+      "/hiace/3.png",  // seating layout
+      "/hiace/4.jpeg", // front seats
+      "/hiace/5.png",  // rear cargo
+    ],
     name: "Toyota Hiace BEV",
     year: "2025",
     category: "Premium",
     passengers: 12,
     range: "350 km",
     features: ["Captain chairs", "Multi-row comfort", "USB-C all rows", "Climate control"],
-    accent: "#A88549",
     badge: "Group Travel",
   },
 ];
+
+/* ── Per-card image carousel ── */
+function CarCarousel({ images, name, badge }: { images: string[]; name: string; badge: string }) {
+  const [idx, setIdx] = useState(0);
+  const multiple = images.length > 1;
+
+  const go = (dir: 1 | -1) => {
+    setIdx((prev) => (prev + dir + images.length) % images.length);
+  };
+
+  return (
+    <div className="relative h-56 overflow-hidden bg-[#f7f4ef] group/carousel">
+      {/* Slides */}
+      <div
+        className="flex h-full transition-transform duration-500 ease-out"
+        style={{ transform: `translateX(-${idx * 100}%)` }}
+      >
+        {images.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt={`${name} — view ${i + 1}`}
+            className="w-full h-full object-cover object-center flex-shrink-0"
+          />
+        ))}
+      </div>
+
+      {/* Badge */}
+      <div
+        className="absolute top-3 right-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full backdrop-blur-sm z-10"
+        style={{ background: "rgba(168,133,73,0.88)", color: "white" }}
+      >
+        {badge}
+      </div>
+
+      {multiple && (
+        <>
+          {/* Prev / Next arrows */}
+          <button
+            onClick={() => go(-1)}
+            aria-label="Previous image"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-all opacity-0 group-hover/carousel:opacity-100 hover:scale-110 active:scale-95"
+            style={{ background: "rgba(18,40,32,0.55)", backdropFilter: "blur(6px)" }}
+          >
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => go(1)}
+            aria-label="Next image"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-all opacity-0 group-hover/carousel:opacity-100 hover:scale-110 active:scale-95"
+            style={{ background: "rgba(18,40,32,0.55)", backdropFilter: "blur(6px)" }}
+          >
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                aria-label={`Go to image ${i + 1}`}
+                className="rounded-full transition-all"
+                style={{
+                  width: i === idx ? "20px" : "6px",
+                  height: "6px",
+                  background: i === idx ? "#A88549" : "rgba(255,255,255,0.6)",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* "Explore" hint */}
+          <div
+            className="absolute bottom-3 right-3 text-[10px] font-semibold px-2 py-1 rounded-full z-10 flex items-center gap-1 opacity-0 group-hover/carousel:opacity-100 transition-opacity"
+            style={{ background: "rgba(18,40,32,0.55)", color: "white", backdropFilter: "blur(6px)" }}
+          >
+            {idx + 1}/{images.length}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default function Fleet() {
   return (
@@ -60,20 +172,8 @@ export default function Fleet() {
                   boxShadow: "0 0 0 1px rgba(18,40,32,0.07), 0 4px 24px rgba(18,40,32,0.07)",
                 }}
               >
-                {/* Car photo */}
-                <div className="relative h-56 overflow-hidden bg-[#f7f4ef]">
-                  <img
-                    src={v.image}
-                    alt={v.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div
-                    className="absolute top-3 right-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full backdrop-blur-sm"
-                    style={{ background: "rgba(168,133,73,0.88)", color: "white" }}
-                  >
-                    {v.badge}
-                  </div>
-                </div>
+                {/* Image carousel */}
+                <CarCarousel images={v.images} name={v.name} badge={v.badge} />
 
                 <div className="p-6">
                   {/* Name */}

@@ -32,6 +32,16 @@ h1, h2, h3, h4 {
   font-family: var(--font-playfair), 'Playfair Display', serif;
 }
 
+/* ── Hide scrollbar (testimonials track) ───────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Booking modal entrance ────────────────────────────── */
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.92) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
 /* ── Marquee ───────────────────────────────────────────── */
 @keyframes marquee-left {
   from { transform: translateX(0); }

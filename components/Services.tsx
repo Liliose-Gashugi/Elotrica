@@ -1,6 +1,6 @@
 ﻿import FadeIn from "./FadeIn";
+import BookingButton from "./BookingButton";
 
-const WA_BASE = "https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%27m%20interested%20in%20";
 
 const services = [
   {
@@ -143,10 +143,8 @@ export default function Services() {
                   </p>
 
                   {/* CTA */}
-                  <a
-                    href={`${WA_BASE}${encodeURIComponent(s.cta)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <BookingButton
+                    service={s.title}
                     className="flex items-center justify-between w-full text-sm font-semibold px-5 py-3.5 rounded-xl transition-all hover:gap-3 group/btn"
                     style={
                       s.featured
@@ -165,7 +163,7 @@ export default function Services() {
                     <svg className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                  </a>
+                  </BookingButton>
                 </div>
               </div>
             </FadeIn>

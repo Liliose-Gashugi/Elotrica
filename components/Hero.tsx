@@ -1,53 +1,23 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
-const WA_LINK = `https://wa.me/250788458897?text=Hello%20Elotrica%2C%20I%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0AService%3A%20%0ADate%20%26%20Time%3A%20%0APickup%3A%20%0ADropoff%3A%20`;
+import BookingButton from "./BookingButton";
 
 const stats = [
   { value: "100%", label: "Electric", color: "#A88549" },
   { value: "24/7",  label: "Available", color: "#f7f4ef" },
 ];
 
-const START = 27; // 0:27
-const END   = 71; // 1:11
-
 export default function Hero() {
-  const videoRef    = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-
-    const onLoaded = () => {
-      v.currentTime = START;
-      v.play().catch(() => {});
-    };
-
-    const onTimeUpdate = () => {
-      if (v.currentTime >= END) {
-        v.currentTime = START;
-      }
-    };
-
-    const onEnded = () => {
-      v.currentTime = START;
-      v.play().catch(() => {});
-    };
-
     const onPlaying = () => setVideoReady(true);
-
-    v.addEventListener("loadedmetadata", onLoaded);
-    v.addEventListener("timeupdate", onTimeUpdate);
-    v.addEventListener("ended", onEnded);
     v.addEventListener("playing", onPlaying);
-
-    return () => {
-      v.removeEventListener("loadedmetadata", onLoaded);
-      v.removeEventListener("timeupdate", onTimeUpdate);
-      v.removeEventListener("ended", onEnded);
-      v.removeEventListener("playing", onPlaying);
-    };
+    v.play().catch(() => {});
+    return () => v.removeEventListener("playing", onPlaying);
   }, []);
 
   return (
@@ -56,7 +26,7 @@ export default function Hero() {
       className="relative flex flex-col items-center justify-start overflow-hidden lg:min-h-screen"
       style={{ background: "#050a08" }}
     >
-      {/* ── Local video — no YouTube, no controls, no UI ── */}
+      {/* ── Local video — loops whole clip, no external UI ── */}
       <div
         className="absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000"
         style={{ opacity: videoReady ? 1 : 0 }}
@@ -65,6 +35,7 @@ export default function Hero() {
           ref={videoRef}
           autoPlay
           muted
+          loop
           playsInline
           style={{
             position: "absolute",
@@ -81,22 +52,34 @@ export default function Hero() {
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
-
-        {/* Dark overlay */}
-        <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.60)" }} />
-
-        {/* Subtitle mask — solid band covering bottom ~18% where burned-in text sits */}
-        <div
-          className="absolute bottom-0 inset-x-0 z-[2]"
-          style={{ height: "18%", background: "rgba(4,8,6,1)" }}
-        />
-
-        {/* Bottom fade — blends the solid mask into the video above it */}
-        <div
-          className="absolute bottom-[18%] inset-x-0 z-[2]"
-          style={{ height: "16%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,1) 100%)" }}
-        />
       </div>
+
+      {/* Dark overlay for text legibility */}
+      <div className="absolute inset-0 z-[1]" style={{ background: "rgba(5,10,8,0.55)" }} />
+
+      {/* ── RBA logo mask — top-right corner ── */}
+      <div
+        className="absolute top-0 right-0 z-[2]"
+        style={{ width: "240px", height: "110px", background: "linear-gradient(225deg, #050a08 0%, #050a08 32%, transparent 78%)" }}
+      />
+
+      {/* Top edge fade — blends RBA mask into the scene */}
+      <div
+        className="absolute top-0 inset-x-0 z-[2]"
+        style={{ height: "80px", background: "linear-gradient(to bottom, rgba(5,10,8,0.7) 0%, transparent 100%)" }}
+      />
+
+      {/* ── Clideo watermark mask — bottom-right corner ── */}
+      <div
+        className="absolute bottom-0 right-0 z-[3]"
+        style={{ width: "340px", height: "170px", background: "linear-gradient(315deg, #050a08 0%, #050a08 42%, rgba(5,10,8,0.85) 62%, transparent 85%)" }}
+      />
+
+      {/* Bottom fade */}
+      <div
+        className="absolute bottom-0 inset-x-0 z-[2]"
+        style={{ height: "22%", background: "linear-gradient(to bottom, transparent 0%, rgba(4,8,6,0.92) 85%, rgba(4,8,6,1) 100%)" }}
+      />
 
       {/* Faint grid */}
       <div
@@ -147,10 +130,7 @@ export default function Hero() {
         </h1>
 
         {/* CTA */}
-        <a
-          href={WA_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
+        <BookingButton
           className="group inline-flex items-center gap-3 font-semibold px-7 py-[11px] rounded-full text-white text-[0.88rem] transition-all hover:scale-[1.04] active:scale-95"
           style={{
             background: "linear-gradient(135deg, #A88549 0%, #c9a55a 100%)",
@@ -160,8 +140,8 @@ export default function Hero() {
           <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
           </svg>
-          Book Your Ride
-        </a>
+          Reserve Your Journey
+        </BookingButton>
 
         {/* Stats */}
         <div className="flex items-center justify-center gap-8 sm:gap-16">

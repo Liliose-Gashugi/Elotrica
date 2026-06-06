@@ -2,41 +2,41 @@
 import { useState } from "react";
 import FadeIn from "./FadeIn";
 
-/* ── Placeholder gallery items — replace src with real client photos ── */
+/* ── Client gallery photos — files live in /public/gallery/ ── */
 const photos = [
   {
-    src: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80&auto=format&fit=crop",
-    alt: "BYD Song Plus — airport transfer",
+    src: "/gallery/1.jfif",
+    alt: "Elotrica client photo 1",
     caption: "Airport Transfer · Kigali",
     span: "row-span-2",
   },
   {
-    src: "https://images.unsplash.com/photo-1617704548623-340376564e68?w=800&q=80&auto=format&fit=crop",
-    alt: "Fleet vehicle",
+    src: "/gallery/2.png",
+    alt: "Elotrica client photo 2",
     caption: "Executive SUV · City Tour",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1676754568744-7852efc67c40?w=800&q=80&auto=format&fit=crop",
-    alt: "EV on the road",
+    src: "/gallery/3.jfif",
+    alt: "Elotrica client photo 3",
     caption: "Corporate Transfer",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1571127236794-81c0bbfe1ce3?w=800&q=80&auto=format&fit=crop",
-    alt: "Night ride",
+    src: "/gallery/4.png",
+    alt: "Elotrica client photo 4",
     caption: "Evening Ride · Kigali",
     span: "row-span-2",
   },
   {
-    src: "https://images.unsplash.com/photo-1669625397388-32934837bd3a?w=800&q=80&auto=format&fit=crop",
-    alt: "Luxury interior",
+    src: "/gallery/5.jfif",
+    alt: "Elotrica client photo 5",
     caption: "Premium Interior",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1615050964200-64e5402f95cb?w=800&q=80&auto=format&fit=crop",
-    alt: "Fleet on road",
+    src: "/gallery/6.png",
+    alt: "Elotrica client photo 6",
     caption: "Tourist Trip · Musanze",
     span: "",
   },

@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useRef } from "react";
 import FadeIn from "./FadeIn";
 
 const testimonials = [
@@ -57,21 +59,14 @@ const testimonials = [
   },
 ];
 
-function TestimonialCard({ t, dark = false }: { t: typeof testimonials[0]; dark?: boolean }) {
+function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
   return (
     <div
-      className="flex-shrink-0 w-[320px] sm:w-[360px] rounded-2xl p-6 mx-3"
-      style={
-        dark
-          ? {
-              background: "rgba(247,244,239,0.05)",
-              border: "1px solid rgba(247,244,239,0.09)",
-            }
-          : {
-              background: "white",
-              boxShadow: "0 0 0 1px rgba(18,40,32,0.07), 0 4px 16px rgba(18,40,32,0.05)",
-            }
-      }
+      className="flex-shrink-0 w-[300px] sm:w-[360px] rounded-2xl p-6 mx-3 select-none"
+      style={{
+        background: "rgba(247,244,239,0.05)",
+        border: "1px solid rgba(247,244,239,0.09)",
+      }}
     >
       {/* Stars */}
       <div className="flex gap-0.5 mb-4">
@@ -83,10 +78,7 @@ function TestimonialCard({ t, dark = false }: { t: typeof testimonials[0]; dark?
       </div>
 
       {/* Quote */}
-      <p
-        className="text-sm leading-relaxed mb-5"
-        style={{ color: dark ? "rgba(247,244,239,0.6)" : "rgba(18,40,32,0.6)" }}
-      >
+      <p className="text-sm leading-relaxed mb-5" style={{ color: "rgba(247,244,239,0.6)" }}>
         &ldquo;{t.quote}&rdquo;
       </p>
 
@@ -99,18 +91,8 @@ function TestimonialCard({ t, dark = false }: { t: typeof testimonials[0]; dark?
           {t.initials}
         </div>
         <div>
-          <div
-            className="text-sm font-semibold leading-tight"
-            style={{ color: dark ? "#f7f4ef" : "#122820" }}
-          >
-            {t.name}
-          </div>
-          <div
-            className="text-xs mt-0.5"
-            style={{ color: dark ? "rgba(247,244,239,0.35)" : "rgba(18,40,32,0.4)" }}
-          >
-            {t.role}
-          </div>
+          <div className="text-sm font-semibold leading-tight text-[#f7f4ef]">{t.name}</div>
+          <div className="text-xs mt-0.5" style={{ color: "rgba(247,244,239,0.35)" }}>{t.role}</div>
         </div>
         <span
           className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
@@ -123,10 +105,137 @@ function TestimonialCard({ t, dark = false }: { t: typeof testimonials[0]; dark?
   );
 }
 
-const row1 = [...testimonials, ...testimonials];
-const row2 = [...testimonials.slice(3), ...testimonials.slice(0, 3), ...testimonials.slice(3), ...testimonials.slice(0, 3)];
+const loop = [...testimonials, ...testimonials];
 
 export default function Testimonials() {
+  const trackRef  = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const resumeRef = useRef<(delay?: number) => void>(() => {});
+
+  // Auto-scroll + manual drag/wheel/swipe, seamless infinite loop
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let raf = 0;
+    let resumeTimer: ReturnType<typeof setTimeout>;
+    const SPEED = 0.5; // px per frame
+
+    // Drag state
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    const half = () => track.scrollWidth / 2;
+
+    // Keep scrollLeft within [0, half) for seamless looping
+    const wrap = () => {
+      const h = half();
+      if (h <= 0) return;
+      if (track.scrollLeft >= h) track.scrollLeft -= h;
+      else if (track.scrollLeft < 0) track.scrollLeft += h;
+    };
+
+    const tick = () => {
+      if (!pausedRef.current) {
+        track.scrollLeft += SPEED;
+        wrap();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    // Pause auto-scroll, resume after idle
+    const pause = () => { pausedRef.current = true; clearTimeout(resumeTimer); };
+    const scheduleResume = (delay = 1800) => {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => { pausedRef.current = false; }, delay);
+    };
+    resumeRef.current = scheduleResume; // expose for arrow nav
+
+    // Hover pause (desktop)
+    const onEnter = () => pause();
+    const onLeave = () => { if (!isDown) scheduleResume(300); };
+
+    // Wheel → horizontal scroll
+    const onWheel = (e: WheelEvent) => {
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+      e.preventDefault();
+      pause();
+      track.scrollLeft += delta;
+      wrap();
+      scheduleResume();
+    };
+
+    // Pointer drag
+    const onPointerDown = (e: PointerEvent) => {
+      isDown = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = track.scrollLeft;
+      pause();
+      track.style.cursor = "grabbing";
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      track.scrollLeft = startScroll - dx;
+      wrap();
+    };
+    const onPointerUp = () => {
+      if (!isDown) return;
+      isDown = false;
+      track.style.cursor = "grab";
+      scheduleResume();
+    };
+    // Prevent click-through after a drag
+    const onClickCapture = (e: MouseEvent) => {
+      if (moved) { e.preventDefault(); e.stopPropagation(); }
+    };
+
+    // Touch is handled natively via overflow-x; just pause/resume
+    const onTouchStart = () => pause();
+    const onTouchEnd = () => scheduleResume();
+
+    track.addEventListener("mouseenter", onEnter);
+    track.addEventListener("mouseleave", onLeave);
+    track.addEventListener("wheel", onWheel, { passive: false });
+    track.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    track.addEventListener("click", onClickCapture, true);
+    track.addEventListener("touchstart", onTouchStart, { passive: true });
+    track.addEventListener("touchend", onTouchEnd, { passive: true });
+    track.addEventListener("scroll", wrap, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(resumeTimer);
+      track.removeEventListener("mouseenter", onEnter);
+      track.removeEventListener("mouseleave", onLeave);
+      track.removeEventListener("wheel", onWheel);
+      track.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      track.removeEventListener("click", onClickCapture, true);
+      track.removeEventListener("touchstart", onTouchStart);
+      track.removeEventListener("touchend", onTouchEnd);
+      track.removeEventListener("scroll", wrap);
+    };
+  }, []);
+
+  // Arrow nav — pause auto-scroll so the smooth scroll isn't overridden
+  const nudge = (dir: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    pausedRef.current = true;
+    track.scrollBy({ left: dir * 380, behavior: "smooth" });
+    resumeRef.current(1800); // resume auto-scroll after idle
+  };
+
   return (
     <section id="testimonials" className="py-28 lg:py-36 overflow-hidden"
       style={{ background: "linear-gradient(160deg, #0a1f1a, #122820 50%, #0d2820)" }}
@@ -152,13 +261,48 @@ export default function Testimonials() {
         </FadeIn>
       </div>
 
-      {/* Marquee row 1 — scrolls left */}
-      <div className="marquee-wrap overflow-hidden mb-4">
-        <div className="marquee-track-left">
-          {row1.map((t, i) => (
-            <TestimonialCard key={`r1-${i}`} t={t} dark />
+      {/* Draggable / scrollable marquee */}
+      <div className="relative">
+        {/* Edge fades */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
+          style={{ background: "linear-gradient(to right, #0d2820, transparent)" }} />
+        <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
+          style={{ background: "linear-gradient(to left, #0d2820, transparent)" }} />
+
+        {/* Scroll track */}
+        <div
+          ref={trackRef}
+          className="flex overflow-x-auto no-scrollbar cursor-grab"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {loop.map((t, i) => (
+            <TestimonialCard key={i} t={t} />
           ))}
         </div>
+      </div>
+
+      {/* Arrow controls */}
+      <div className="flex items-center justify-center gap-3 mt-8">
+        <button
+          onClick={() => nudge(-1)}
+          aria-label="Scroll left"
+          className="w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+          style={{ background: "rgba(247,244,239,0.07)", border: "1px solid rgba(247,244,239,0.12)" }}
+        >
+          <svg className="w-5 h-5 text-[#f7f4ef]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={() => nudge(1)}
+          aria-label="Scroll right"
+          className="w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+          style={{ background: "rgba(247,244,239,0.07)", border: "1px solid rgba(247,244,239,0.12)" }}
+        >
+          <svg className="w-5 h-5 text-[#f7f4ef]/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-10">

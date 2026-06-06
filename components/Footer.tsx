@@ -41,14 +41,14 @@ export default function Footer() {
                 </div>
                 +250 788 458 897
               </a>
-              <a href="mailto:info@elotrica.rw"
+              <a href="mailto:info@elotrica.com"
                 className="flex items-center gap-3 text-sm text-[#f7f4ef]/50 hover:text-[#A88549] transition-colors group/link">
                 <div className="w-7 h-7 rounded-lg bg-[#A88549]/12 flex items-center justify-center flex-shrink-0 group-hover/link:bg-[#A88549]/20 transition-colors">
                   <svg className="w-3.5 h-3.5 text-[#A88549]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                info@elotrica.rw
+                info@elotrica.com
               </a>
               <div className="flex items-center gap-3 text-sm text-[#f7f4ef]/65">
                 <div className="w-7 h-7 rounded-lg bg-[#f7f4ef]/5 flex items-center justify-center flex-shrink-0">
