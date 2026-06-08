@@ -23,7 +23,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex flex-col items-center justify-start overflow-hidden lg:min-h-screen"
+      className="relative flex flex-col items-center justify-center overflow-hidden min-h-screen"
       style={{ background: "#050a08" }}
     >
       {/* ── Local video — loops whole clip, no external UI ── */}
@@ -69,10 +69,15 @@ export default function Hero() {
         style={{ height: "80px", background: "linear-gradient(to bottom, rgba(5,10,8,0.7) 0%, transparent 100%)" }}
       />
 
-      {/* ── Clideo watermark mask — bottom-right corner ── */}
+      {/* ── Clideo watermark mask — corner gradient on desktop ── */}
       <div
-        className="absolute bottom-0 right-0 z-[3]"
+        className="absolute bottom-0 right-0 z-[3] hidden sm:block"
         style={{ width: "340px", height: "170px", background: "linear-gradient(315deg, #050a08 0%, #050a08 42%, rgba(5,10,8,0.85) 62%, transparent 85%)" }}
+      />
+      {/* ── Clideo watermark mask — full-width bottom band on mobile ── */}
+      <div
+        className="absolute bottom-0 inset-x-0 z-[3] sm:hidden"
+        style={{ height: "130px", background: "linear-gradient(to bottom, transparent 0%, rgba(5,10,8,0.88) 50%, #050a08 100%)" }}
       />
 
       {/* Bottom fade */}
@@ -92,7 +97,7 @@ export default function Hero() {
       />
 
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-5 lg:px-8 w-full text-center pt-24 pb-10 lg:pt-[110px] lg:pb-14 flex flex-col gap-5 lg:gap-6 items-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-5 lg:px-8 w-full text-center pt-20 pb-12 lg:pt-16 lg:pb-14 flex flex-col gap-4 lg:gap-5 items-center">
 
         {/* Badge */}
         <div
@@ -129,6 +134,12 @@ export default function Hero() {
           </span>
         </h1>
 
+        {/* Description */}
+        <p className="text-[#f7f4ef]/65 text-[0.85rem] lg:text-[0.95rem] leading-relaxed max-w-xl mx-auto px-2 -mt-1">
+          Rwanda&apos;s No 1 fully electric VIP fleet. Premium comfort, zero direct emissions,
+          available every day for corporate clients, individuals, and tourists.
+        </p>
+
         {/* CTA */}
         <BookingButton
           className="group inline-flex items-center gap-3 font-semibold px-7 py-[11px] rounded-full text-white text-[0.88rem] transition-all hover:scale-[1.04] active:scale-95"
@@ -161,12 +172,6 @@ export default function Hero() {
             </div>
           ))}
         </div>
-
-        {/* Description */}
-        <p className="text-[#f7f4ef]/55 text-[0.82rem] leading-relaxed max-w-lg mx-auto px-2">
-          Rwanda&apos;s No 1 fully electric VIP fleet. Premium comfort, zero direct emissions,
-          available every day for corporate clients, individuals, and tourists.
-        </p>
       </div>
     </section>
   );

@@ -41,7 +41,10 @@ export default function Footer() {
                 </div>
                 +250 788 458 897
               </a>
-              <a href="mailto:info@elotrica.com"
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=info@elotrica.com&su=Booking%20Request%20%E2%80%94%20Elotrica&body=Hello%20Elotrica%2C%0A%0AI%20would%20like%20to%20book%20a%20ride.%20Here%20are%20my%20details%3A%0A%0AName%3A%20%0ADate%20%26%20Time%3A%20%0APickup%20Location%3A%20%0ADropoff%20Location%3A%20%0APassengers%3A%20%0AService%20Type%3A%20(Corporate%20%2F%20Individual%20%2F%20Tourist)%0A%0AThank%20you!"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 text-sm text-[#f7f4ef]/50 hover:text-[#A88549] transition-colors group/link">
                 <div className="w-7 h-7 rounded-lg bg-[#A88549]/12 flex items-center justify-center flex-shrink-0 group-hover/link:bg-[#A88549]/20 transition-colors">
                   <svg className="w-3.5 h-3.5 text-[#A88549]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>

@@ -5,19 +5,19 @@ import FadeIn from "./FadeIn";
 /* ── Client gallery photos — files live in /public/gallery/ ── */
 const photos = [
   {
-    src: "/gallery/1.jfif",
+    src: "/gallery/1.jpg",
     alt: "Elotrica client photo 1",
     caption: "Airport Transfer · Kigali",
     span: "row-span-2",
   },
   {
-    src: "/gallery/2.png",
+    src: "/gallery/2.webp",
     alt: "Elotrica client photo 2",
     caption: "Executive SUV · City Tour",
     span: "",
   },
   {
-    src: "/gallery/3.jfif",
+    src: "/gallery/3.jpg",
     alt: "Elotrica client photo 3",
     caption: "Corporate Transfer",
     span: "",
@@ -29,7 +29,7 @@ const photos = [
     span: "row-span-2",
   },
   {
-    src: "/gallery/5.jfif",
+    src: "/gallery/5.png",
     alt: "Elotrica client photo 5",
     caption: "Premium Interior",
     span: "",

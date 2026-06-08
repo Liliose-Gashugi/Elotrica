@@ -89,8 +89,8 @@ function CarCarousel({ images, name, badge }: { images: string[]; name: string; 
           <button
             onClick={() => go(-1)}
             aria-label="Previous image"
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-all opacity-0 group-hover/carousel:opacity-100 hover:scale-110 active:scale-95"
-            style={{ background: "rgba(18,40,32,0.55)", backdropFilter: "blur(6px)" }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-transform hover:scale-110 active:scale-95 shadow-lg"
+            style={{ background: "rgba(18,40,32,0.7)", backdropFilter: "blur(6px)" }}
           >
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -99,8 +99,8 @@ function CarCarousel({ images, name, badge }: { images: string[]; name: string; 
           <button
             onClick={() => go(1)}
             aria-label="Next image"
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-all opacity-0 group-hover/carousel:opacity-100 hover:scale-110 active:scale-95"
-            style={{ background: "rgba(18,40,32,0.55)", backdropFilter: "blur(6px)" }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-transform hover:scale-110 active:scale-95 shadow-lg"
+            style={{ background: "rgba(18,40,32,0.7)", backdropFilter: "blur(6px)" }}
           >
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -124,10 +124,10 @@ function CarCarousel({ images, name, badge }: { images: string[]; name: string; 
             ))}
           </div>
 
-          {/* "Explore" hint */}
+          {/* Image counter */}
           <div
-            className="absolute bottom-3 right-3 text-[10px] font-semibold px-2 py-1 rounded-full z-10 flex items-center gap-1 opacity-0 group-hover/carousel:opacity-100 transition-opacity"
-            style={{ background: "rgba(18,40,32,0.55)", color: "white", backdropFilter: "blur(6px)" }}
+            className="absolute bottom-3 right-3 text-[10px] font-semibold px-2 py-1 rounded-full z-10 flex items-center gap-1 shadow-lg"
+            style={{ background: "rgba(18,40,32,0.7)", color: "white", backdropFilter: "blur(6px)" }}
           >
             {idx + 1}/{images.length}
           </div>
